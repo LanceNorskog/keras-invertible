@@ -1,10 +1,11 @@
-# Dense
+# Simple Invertible Layers
+## Dense
 Inverse of Dense is transpose of Dense, with activation->bias->transpose.
 
-# Bias
+## Bias
 Inverse of Bias needs (input - weights)
 
-# Activations
+## Activations
 
 Some activations are invertible, and in fact has inversions available. 
 Sigmoid/Logit, Tanh/Arctanh. RELU is not invertible.
@@ -20,20 +21,21 @@ there are two possible output for at least one input.
 But we will ignore this, hoping that this will wash out in real use.
 Also, in a real model, we will need to train replacement layers (see below) and this oddity will probably wash out.
 
-# Convolutions
+## Convolutions
 A Convolutional layer is an ordered collection of small Dense kernels. 
 These can be inverted by transposing the learned kernels. 
 The "Transpose" set of CNN layers was designed for this inversion.
 
-# Learnable inversions
-
-## Merge Layers
-Merge Layers are (mostly) non-invertible, but can be approximated via learned values.
-
+## Concat
 Concat -> something is replaced by slices
 That is, Concat -> Dense can be replaced with inverse Dense -> slices
 
-Other merges must be replaced with a learnable invertible replacement, and learn weights based on that replacement.
+
+# Inverting via Learnable Replacements
+
+## Merge Layers
+Merge Layers (besides Concat) are (mostly) non-invertible, but can be approximated via learned values. These merges must be replaced with a learnable invertible replacement, and learn weights based on that replacement. Then, the matching inverted set of layers forms an approximate inversion of the original layer.
+
 Replacing in a learned model (residual signal technique for example) must freeze the original model, then train the replacement.
 This design bets that the multiple inputs to a function have a small standard deviation in each input neuron. 
 That is, position 43 of an Add(input A, input B) usually has a large value on input A and a small value on input B.
