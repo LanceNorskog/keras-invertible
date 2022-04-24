@@ -2,9 +2,6 @@
 ## Dense
 Inverse of Dense is transpose of Dense, with activation->bias->transpose.
 
-## Bias
-Inverse of Bias needs (input - weights)
-
 ## Activations
 
 Some activations are invertible, and in fact has inversions available. 
