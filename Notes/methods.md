@@ -70,6 +70,8 @@ Separate layer that uses weights from a Dense layer. Can add or subtract.
 ## Noise Reconstitution Layer
 If an input signal has high standard deviation, and the signal is smoothed in some way, we may want to recreate the standard deviation via adding noise to the inversion. 
 
+Example: Noise -> Global Average Pooling, where Inversion of GAP does simple fan-out.
+
 # Rebuilding pretrained models
 It should be possible to rebuild an existing trained network by replacing all of the existing layers with either inverting layers or the above rebuilding techniques,
 if the model is amenable. The EfficientNet series of models are (I think) possible to rebuild this way. 
