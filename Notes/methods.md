@@ -61,6 +61,9 @@ If Layer norm is log(input subtract mean), then the replacement is (Dense, bias,
 ## Global Average Pooling 
 This is a hard one. If it has a low standard deviation, it can be replaced by fanning out the "output" value to all inputs. If the GAP layer has a high standard deviation (which it probably does) it could be inverted by fanout * noise. For the latter, this would require a training phase to acquire the standard deviation. 
 
+## Global Max Pooling
+I doubt it is legitimate, but a noise replacement technique might get better results here than just fanning out the max to all inputs.
+
 # Misc tools
 ## Bias Layer
 Separate layer that uses weights from a Dense layer. Can add or subtract.
