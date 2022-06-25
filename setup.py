@@ -33,7 +33,7 @@ setup(
     author='LanceNorskog',
     author_email='LanceNorskog@users.noreply.github.com',
     description='Inverted versions of Keras layers',
-    long_description=read_file('README.md'),
+    long_description=read_file('Readme.md'),
     long_description_content_type='text/markdown',
     install_requires=get_requirements('requirements.txt'),
     classifiers=(
