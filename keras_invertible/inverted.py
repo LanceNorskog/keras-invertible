@@ -43,3 +43,19 @@ class InvertedDensePI(tf.keras.layers.Layer):
 #         b = self.master_layer._trainable_weights[1]
 #         w = tf.transpose(W)
         return tf.matmul(inputs - b, w)
+
+
+class InvertedPReLU(layers.Layer):
+    def __init__(self, master_layer):
+        super(InvertedPReLU, self).__init__()
+        self.master_layer = master_layer
+
+    def build(self, input_shape):
+        # do not train weights or bias from master_layer, they are read-only
+        self.params = []
+
+    def call(self, inputs):
+        alpha = 1/(self.master_layer.alpha + 0.00001)
+        pos = keras.backend.relu(inputs)
+        neg = -alpha * keras.backend.relu(-inputs)
+        return pos + neg
