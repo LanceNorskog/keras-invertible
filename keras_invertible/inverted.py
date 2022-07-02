@@ -23,10 +23,38 @@ class InvertedDense(tf.keras.layers.Layer):
         w = tf.transpose(W)
         return tf.matmul(inputs - b, w)
 
-    """ Given a master layer, invert bias then transpose weights """
+""" Invert bias from master layer """
+class InvertedBias(tf.keras.layers.Layer):
+    def __init__(self, master_layer):
+        super(InvertedBias, self).__init__()
+        self.master_layer = master_layer
+
+    def call(self, inputs):  # Defines the computation from inputs to outputs
+        b = self.master_layer._trainable_weights[1]
+        return inputs - b
+
 class InvertedDensePI(tf.keras.layers.Layer):
     def __init__(self, master_layer):
         super(InvertedDensePI, self).__init__()
+        self.master_layer = master_layer
+
+    def build(self, input_shape):
+        # do not train weights or bias from master_layer, they are read-only
+        (W, b) = self.master_layer.get_weights()
+        self.W = np.linalg.pinv(W)
+        self.b = b
+        self.params = [self.W]
+        
+    def call(self, inputs):  # Defines the computation from inputs to outputs
+        W = self.master_layer._trainable_weights[0]
+        b = self.master_layer._trainable_weights[1]
+        w = tf.transpose(W)
+        return tf.matmul(inputs - b, w)
+
+    """ Given a master layer, invert bias then transpose weights """
+class InvertedDensePI2(tf.keras.layers.Layer):
+    def __init__(self, master_layer):
+        super(InvertedDensePI2, self).__init__()
         self.master_layer = master_layer
 
     def build(self, input_shape):
