@@ -45,7 +45,7 @@ class InvertedDensePI(tf.keras.layers.Layer):
         return tf.matmul(inputs - b, w)
 
 
-class InvertedPReLU(layers.Layer):
+class InvertedPReLU(tf.keras.layers.Layer):
     def __init__(self, master_layer):
         super(InvertedPReLU, self).__init__()
         self.master_layer = master_layer
