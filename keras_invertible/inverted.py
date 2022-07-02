@@ -70,7 +70,7 @@ class InvertedLeakyReLU(tf.keras.layers.Layer):
                 f"Expecting a float. Received: {alpha}"
             )
         self.supports_masking = True
-        self.alpha = backend.cast_to_floatx(alpha)
+        self.alpha = tf.keras.backend.cast_to_floatx(alpha)
 
     def call(self, inputs):
         return -tf.keras.backend.relu(inputs, alpha=self.alpha)
