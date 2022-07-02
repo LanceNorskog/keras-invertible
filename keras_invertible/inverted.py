@@ -59,3 +59,23 @@ class InvertedPReLU(layers.Layer):
         pos = keras.backend.relu(inputs)
         neg = -alpha * keras.backend.relu(-inputs)
         return pos + neg
+
+class InvertedLeakyReLU(Layer):
+
+    def __init__(self, alpha=0.3, **kwargs):
+        super().__init__(**kwargs)
+        if alpha is None:
+            raise ValueError(
+                "The alpha value of a Leaky ReLU layer cannot be None, "
+                f"Expecting a float. Received: {alpha}"
+            )
+        self.supports_masking = True
+        self.alpha = backend.cast_to_floatx(alpha)
+
+    def call(self, inputs):
+        return -backend.relu(inputs, alpha=self.alpha)
+
+    def get_config(self):
+        config = {"alpha": float(self.alpha)}
+        base_config = super().get_config()
+        return dict(list(base_config.items()) + list(config.items()))
