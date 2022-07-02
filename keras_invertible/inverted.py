@@ -36,7 +36,7 @@ class InvertedBias(tf.keras.layers.Layer):
 """ Force layer to remain the Penrose pseudo-inverse of the master layer """
 class InvertedDensePI(tf.keras.layers.Layer):
      def __init__(self, master_layer, **kwargs):
-        super(InvertedDensePI, self).__init__(**kwargs)
+        super().__init__(**kwargs)
         self.master_layer = master_layer
 
     def build(self, input_shape):
