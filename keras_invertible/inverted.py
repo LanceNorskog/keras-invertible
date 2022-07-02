@@ -60,7 +60,7 @@ class InvertedPReLU(layers.Layer):
         neg = -alpha * keras.backend.relu(-inputs)
         return pos + neg
 
-class InvertedLeakyReLU(Layer):
+class InvertedLeakyReLU(tf.keras.layers.Layer):
 
     def __init__(self, alpha=0.3, **kwargs):
         super().__init__(**kwargs)
