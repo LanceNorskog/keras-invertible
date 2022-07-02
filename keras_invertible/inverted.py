@@ -8,9 +8,9 @@ class InvertedActivation(tf.keras.layers.Layer):
         return -inputs
 
 """ Given a master layer, invert bias then transpose weights """
-class InvertedDense(layers.Layer):
+class InvertedDense(tf.keras.layers.Layer):
     def __init__(self, master_layer):
-        super(TiedDense, self).__init__()
+        super(InvertedDense, self).__init__()
         self.master_layer = master_layer
 
     def build(self, input_shape):
@@ -24,9 +24,9 @@ class InvertedDense(layers.Layer):
         return tf.matmul(inputs - b, w)
 
     """ Given a master layer, invert bias then transpose weights """
-class InvertedDensePI(layers.Layer):
+class InvertedDensePI(tf.keras.layers.Layer):
     def __init__(self, master_layer):
-        super(TiedDense, self).__init__()
+        super(InvertedDensePI, self).__init__()
         self.master_layer = master_layer
 
     def build(self, input_shape):
