@@ -46,7 +46,7 @@ class InvertedDensePI(tf.keras.layers.Layer):
         self.params = []
         
     def call(self, inputs):  # Defines the computation from inputs to outputs
-        return tf.matmul(inputs - self.b, self.W)
+        return tf.matmul(inputs - self.master_layer._trainable_weights[1], tf.linalg.pinv(self.master_layer._trainable_weights[0]))
 
     """ Given a master layer, invert bias then transpose weights """
 class InvertedDensePI2(tf.keras.layers.Layer):
