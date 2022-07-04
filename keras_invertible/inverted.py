@@ -123,7 +123,6 @@ class MonotonicPReLU(tf.keras.layers.Layer):
         super().__init__(**kwargs)
         self.supports_masking = True
 
-    @tf_utils.shape_type_conversion
     def build(self, input_shape):
         param_shape = list(input_shape[1:])
         self.alpha = self.add_weight(
