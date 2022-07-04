@@ -99,7 +99,7 @@ class InvertedLeakyReLU(tf.keras.layers.Layer):
         base_config = super().get_config()
         return dict(list(base_config.items()) + list(config.items()))
 
-class MonotonicPReLU(Layer):
+class MonotonicPReLU(tf.keras.layers.Layer):
     """Monotonic Parametric Rectified Linear Unit.
     It follows:
     ```
@@ -134,8 +134,8 @@ class MonotonicPReLU(Layer):
         self.built = True
 
     def call(self, inputs):
-        pos = backend.relu(inputs)
-        neg = -tf.math.abs(self.alpha) * backend.relu(-inputs)
+        pos = tf.keras.backend.relu(inputs)
+        neg = -tf.math.abs(self.alpha) * tf.keras.backend.relu(-inputs)
         return pos + neg
 
     def compute_output_shape(self, input_shape):
