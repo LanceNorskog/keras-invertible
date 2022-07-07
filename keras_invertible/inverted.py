@@ -129,7 +129,7 @@ class MonotonicPReLU(tf.keras.layers.Layer):
             shape=param_shape,
             name="alpha",
         )
-        self.input_spec = InputSpec(ndim=len(input_shape), axes={})
+        self.input_spec = tf.keras.layers.InputSpec(ndim=len(input_shape), axes={})
         self.built = True
 
     def call(self, inputs):
