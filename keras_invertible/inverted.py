@@ -74,10 +74,10 @@ class InvertedPReLU(tf.keras.layers.Layer):
         self.params = []
 
     def call(self, inputs):
-        alpha = 1/(self.master_layer.alpha + 0.00001)
-        pos = keras.backend.relu(inputs)
-        neg = -alpha * keras.backend.relu(-inputs)
-        return pos + neg
+        alpha = self.master_layer.alpha
+        pos = keras.backend.relu(-inputs)
+        neg = -alpha * keras.backend.relu(inputs)
+        return -(pos + neg)
 
 class InvertedLeakyReLU(tf.keras.layers.Layer):
 
@@ -92,7 +92,7 @@ class InvertedLeakyReLU(tf.keras.layers.Layer):
         self.alpha = tf.keras.backend.cast_to_floatx(alpha)
 
     def call(self, inputs):
-        return -tf.keras.backend.relu(inputs, alpha=self.alpha)
+        return -tf.keras.backend.relu(-inputs, alpha=self.alpha)
 
     def get_config(self):
         config = {"alpha": float(self.alpha)}
