@@ -107,7 +107,7 @@ class InvertedLeakyReLU(tf.keras.layers.Layer):
         self.alpha = tf.keras.backend.cast_to_floatx(alpha)
 
     def call(self, inputs):
-        return -tf.keras.backend.relu(-inputs, alpha=self.alpha)
+        return tf.keras.backend.relu(inputs, alpha=1/self.alpha)
 
     def get_config(self):
         config = {"alpha": float(self.alpha)}
