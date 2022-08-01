@@ -74,10 +74,10 @@ class InvertedDensePI2(tf.keras.layers.Layer):
         self.params = []
         
     def call(self, inputs):  # Defines the computation from inputs to outputs
-        W = self.master_layer._trainable_weights[0]
-        b = self.master_layer._trainable_weights[1]
+        self.W = self.master_layer._trainable_weights[0]
+        self.b = self.master_layer._trainable_weights[1]
         w = tf.linalg.pinv(W)
-        return tf.matmul(inputs - b, w)
+        return tf.matmul(inputs - self.b, self.w)
 
 class InvertedPReLU(tf.keras.layers.Layer):
     def __init__(self, master_layer):
