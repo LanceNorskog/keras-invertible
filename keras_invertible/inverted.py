@@ -40,8 +40,8 @@ class InvertedDensePI(tf.keras.layers.Layer):
         self.master_layer = master_layer
 
     def build(self, input_shape):
-        self.W = tf.linalg.pinv(self.master_layer._trainable_weights[0])
-        self.b = self.master_layer._trainable_weights[1]
+        self.W = tf.linalg.pinv(self.master_layer.kernel)
+        self.b = self.master_layer.bias
         # do not train weights or bias from master_layer, they are read-only
         self.params = []
         
