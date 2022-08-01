@@ -46,6 +46,21 @@ class InvertedDensePI(tf.keras.layers.Layer):
         self.params = []
         
     def call(self, inputs):  # Defines the computation from inputs to outputs
+        return tf.matmul(inputs - self.b, self.W)
+
+""" Force layer to remain the Penrose pseudo-inverse of the master layer """
+class InvertedDensePI1(tf.keras.layers.Layer):
+    def __init__(self, master_layer, **kwargs):
+        super().__init__(**kwargs)
+        self.master_layer = master_layer
+
+    def build(self, input_shape):
+        self.W = tf.linalg.pinv(self.master_layer._trainable_weights[0])
+        self.b = self.master_layer._trainable_weights[1]
+        # do not train weights or bias from master_layer, they are read-only
+        self.params = []
+        
+    def call(self, inputs):  # Defines the computation from inputs to outputs
         return tf.matmul(inputs - self.master_layer._trainable_weights[1], tf.linalg.pinv(self.master_layer._trainable_weights[0]))
 
     """ Given a master layer, invert bias then transpose weights """
