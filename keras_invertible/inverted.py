@@ -154,3 +154,32 @@ class MonotonicPReLU(tf.keras.layers.Layer):
 
     def compute_output_shape(self, input_shape):
         return input_shape
+
+    
+class InvertedMonotonicPReLU(tf.keras.layers.Layer):
+    """Inverted match of Monotonic Parametric Rectified Linear Unit.
+        Supplies inverted version of given layer.
+    """
+
+    def __init__(
+        self,
+        other_layer,
+        **kwargs
+    ):
+        super().__init__(**kwargs)
+        self.other_layer = other_layer
+        self.supports_masking = True
+
+    def build(self, input_shape):
+        param_shape = list(input_shape[1:])
+        self.input_spec = tf.keras.layers.InputSpec(ndim=len(input_shape), axes={})
+        self.params = []
+        self.built = True
+
+    def call(self, inputs):
+        pos = tf.keras.backend.relu(inputs)
+        neg = -(1/tf.math.abs(self.other_layer.alpha)) * tf.keras.backend.relu(-inputs)
+        return pos + neg
+
+    def compute_output_shape(self, input_shape):
+        return input_shape
