@@ -23,7 +23,7 @@ class InvertedDense(tf.keras.layers.Layer):
         w = tf.transpose(W)
         return tf.matmul(inputs - b, w)
 
-""" Invert bias from master layer """
+""" Invert bias from master layer, which can be Dense or a Conv layer """
 class InvertedBias(tf.keras.layers.Layer):
     def __init__(self, master_layer):
         super(InvertedBias, self).__init__()
